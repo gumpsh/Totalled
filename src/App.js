@@ -16,7 +16,7 @@ export default function App() {
   const [expression, setExpression] = useState();
   const [total, setTotal] = useState();
 
-  const { progress, setProgress, isStarted, setIsStarted } =
+  const { isStarted: started, setIsStarted: setStarted } =
     useContext(GameProgressContext);
 
   <Router>
@@ -42,13 +42,13 @@ export default function App() {
             ops array length = nums length - 1
     */
     const numNums = Array.from({ length: l }, () =>
-      getRandomIntInclusive(1, r)
+      getRandomIntInclusive(1, r),
     );
     const stringNums = numNums.map(String);
 
     const ops = Array.from(
       { length: l - 1 },
-      () => operatorsObject[getRandomIntInclusive(1, 4)]
+      () => operatorsObject[getRandomIntInclusive(1, 4)],
     );
 
     const generatedExpression = buildExpression(stringNums, ops);
@@ -85,12 +85,12 @@ export default function App() {
     }
 
     initialise(length, range);
-    setIsStarted(true);
+    setStarted(true);
   }
 
   return (
     <div>
-      {isStarted ? (
+      {started ? (
         <Calculate expression={expression} total={total} />
       ) : (
         <Home onStart={handleStart} />

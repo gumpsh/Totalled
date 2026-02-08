@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Attempts from "./Attempts";
 import { evaluateRPN, toRPN } from "../utils";
 import { GameProgressContext } from "../store/GameProgressContext";
@@ -7,52 +7,50 @@ import NavBar from "./NavBar";
 import OperatorButtons from "./OperatorButtons";
 import Container from "./Container";
 import Expression from "./Expression";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Calculate({ expression, total }) {
   const [index, setIndex] = useState(null);
   const [editExpression, setEditExpression] = useState([]);
-  const [selectedOp, setSelectedOp] = useState("");
+  //const [selectedOp, setSelectedOp] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const {
-    attempts,
-    setAttempts,
-    isCompleted,
-    setIsCompleted,
-    isStarted,
-    setIsStarted,
-    progress,
-    setProgress,
+    attempts: attemptsArray,
+    setAttempts: setAttemptsArray,
+    isCompleted: completed,
+    setIsCompleted: setCompleted,
+    setIsStarted: setStarted,
+    setProgress: setProg,
   } = useContext(GameProgressContext);
 
   const navigate = useNavigate();
 
-  let hiddenOperators;
+  //let hiddenOperators;
 
-  function initialiseDisplay() {
+  const initialiseDisplay = useCallback(() => {
     setIndex(null);
     const exp = expression;
     const inputOperators = ["+", "-", "*", "/"];
     const expArray = exp.split(" ");
-    hiddenOperators = expArray.map((e) =>
-      !inputOperators.includes(e) ? e : "?"
+    const hiddenOperators = expArray.map((e) =>
+      !inputOperators.includes(e) ? e : "?",
     );
     setEditExpression(hiddenOperators);
-  }
+  }, [expression]);
 
   useEffect(() => {
     initialiseDisplay();
-  }, []);
+  }, [initialiseDisplay]);
 
   // Inserts operators
   function handleHiddenOperators(op) {
     if (!index) return;
 
     setIsClicked(false);
-    setSelectedOp(op);
+    //setSelectedOp(op);
     const exp = editExpression;
     exp[index] = op;
     setEditExpression(exp);
@@ -72,24 +70,24 @@ export default function Calculate({ expression, total }) {
   }
 
   function resetAndUpdateLocalStorage(receievedProgress, recievedMessage) {
-    setProgress(receievedProgress);
+    setProg(receievedProgress);
     setMessage(recievedMessage);
     setIndex(null);
     setIsDisabled(true);
-    setIsCompleted(true);
+    setCompleted(true);
     setShowModal(true);
     const localStorageAmountGamesPlayed = JSON.parse(
-      window.localStorage.getItem("amountGamesPlayed")
+      window.localStorage.getItem("amountGamesPlayed"),
     );
     window.localStorage.setItem(
       "amountGamesPlayed",
       localStorageAmountGamesPlayed != null
         ? JSON.stringify(Number(localStorageAmountGamesPlayed) + 1)
-        : JSON.stringify(Number(1))
+        : JSON.stringify(Number(1)),
     );
     console.log(
       "games played:",
-      JSON.parse(window.localStorage.getItem("amountGamesPlayed"))
+      JSON.parse(window.localStorage.getItem("amountGamesPlayed")),
     );
   }
 
@@ -112,10 +110,10 @@ export default function Calculate({ expression, total }) {
       correct: correct,
     };
 
-    setAttempts((currentAttempts) => [...currentAttempts, attempt]);
+    setAttemptsArray((currentAttempts) => [...currentAttempts, attempt]);
 
     if (!correct) {
-      if (attempts.length < 4) {
+      if (attemptsArray.length < 4) {
         initialiseDisplay();
       } else {
         resetAndUpdateLocalStorage("finished", "Better Luck Next Time!");
@@ -130,16 +128,16 @@ export default function Calculate({ expression, total }) {
   }
 
   function handleNavigateHome() {
-    setProgress(
+    setProg(
       message === "Well Done!"
         ? "successfull"
         : message === "Better Luck Next Time!"
-        ? "unsuccessfull"
-        : "attempting"
+          ? "unsuccessfull"
+          : "attempting",
     );
-    setIsCompleted(false);
-    setAttempts([]);
-    setIsStarted(false);
+    setCompleted(false);
+    setAttemptsArray([]);
+    setStarted(false);
     navigate("/");
   }
 
@@ -157,12 +155,12 @@ export default function Calculate({ expression, total }) {
         />
         <OperatorButtons
           handleHiddenOperators={handleHiddenOperators}
-          isCompleted={isCompleted}
+          isCompleted={completed}
           isDisabled={isDisabled}
           handleSubmit={handleSubmit}
         />
       </Container>
-      {attempts.length > 0 && (
+      {attemptsArray.length > 0 && (
         <Attempts handleNavigateHome={handleNavigateHome} />
       )}
       {showModal && (
