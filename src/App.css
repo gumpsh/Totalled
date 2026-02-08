@@ -1,21 +1,11 @@
-/* .App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  border-color: blue solid 2px;
-  background-color: aqua;
-}
-
-.operators {
-  display: grid;
-  border-radius: 50%;
-} */
-
 @import url("https://fonts.googleapis.com/css2?family=Monoton&family=Quicksand:wght@500;700&display=swap");
+:root {
+  --color-blue: #00aeef;
+  --color-blue-hover: blue;
+  --color-green: chartreuse;
+  --color-green-hover: green;
+  --color-text: white;
+}
 
 body {
   display: flex;
@@ -24,7 +14,6 @@ body {
   align-items: center;
   font-size: 2.4rem;
   font-family: sans-serif;
-  color: #5a3e2b;
   font-family: "Quicksand";
   font-weight: 500;
 }
@@ -35,63 +24,229 @@ body {
   text-align: center;
 }
 
-.container {
+.nav {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 50px;
+  justify-content: flex-end;
+  border-top: solid gray 1px;
+  border-bottom: solid gray 1px;
 }
 
-.numbers {
+.nav div {
   display: flex;
   justify-content: space-evenly;
 }
 
+.nav div > svg:hover {
+  background-color: lightskyblue;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60vw;
+}
+
+.container h6 {
+  text-align: center;
+}
+
+.numbers {
+  display: flex;
+}
+
 .number {
-  margin: 1rem 0.5rem 1rem 0.5rem;
-  padding: 1rem;
-  min-width: 2rem;
+  padding: 4px;
   height: 100%;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  font-size: 16px;
+  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-radius: 25%;
+}
+
+.select {
+  padding: 4px;
+  height: 100%;
+  font-size: 24px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.select:hover {
+  color: var(--color-blue);
+}
+
+.operatorsContainer {
+  display: flex;
 }
 
 .operators {
-  display: grid;
-  padding: 1rem;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 1rem;
-  width: 4rem;
-  height: 4rem;
-  position: relative;
-  border-radius: 12.5%;
-  background-color: #f0f0f0;
-  padding: 10px;
-  overflow: hidden;
+  display: flex;
+  width: 8rem;
+  margin-bottom: 2rem;
 }
 
 .operator {
-  width: 100%;
+  min-width: 25%;
   height: 100%;
-  background-color: #007bff;
-  color: white;
+  color: var(--color-text);
   border: none;
-  font-size: 16px;
+  font-size: 24px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border-radius: 25%;
+  background-color: var(--color-green);
+}
+
+.submit {
+  height: 100%;
+  color: var(--color-text);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-blue);
+  margin-left: 10px;
+  transition: transform 0.2s;
+}
+
+.submit:hover {
+  transform: scale(1.1);
 }
 
 .operator:hover {
-  background-color: #0056b3;
+  background-color: var(--color-green-hover);
+}
+
+hr {
+  width: 100%;
+  border: solid 2px var(--color-blue);
+}
+
+.homeButtonContainer {
+  display: flex;
+}
+
+.homeButton {
+  background-color: var(--color-blue);
+  border: none;
+  color: var(--color-text);
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 6rem;
+}
+
+.homeButton:hover {
+  background-color: lightskyblue;
+}
+
+.modalButton {
+  background-color: var(--color-blue);
+  border: none;
+  color: var(--color-text);
+  padding: 10px 20px;
+  text-align: center;
+  align-self: center;
+  cursor: pointer;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 8rem;
+  margin-top: 3rem;
+}
+
+.modalButton:hover {
+  background-color: lightskyblue;
+}
+
+.clicked {
+  color: var(--color-blue);
+}
+
+.span {
+  color: var(--color-green);
+  margin-bottom: 10px;
+}
+
+.attempts {
+  display: flex;
+  flex-direction: column;
+}
+
+.attempt {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.mark {
+  margin-left: 8px;
+}
+
+.attempt p {
+  margin: 2px;
+}
+
+@media only screen and (max-width: 600px) {
+  .modal {
+    font-size: large;
+  }
+
+  .homeButton {
+    font-size: 1rem;
+  }
+
+  .homeButtonContainer {
+    flex-direction: column;
+  }
+
+  .attempt {
+    justify-content: space-between;
+  }
+
+  .mark {
+    margin-left: 0px;
+  }
+}
+
+.modal {
+  max-width: 50vw;
+  text-align: center;
+  padding: 2rem;
+  border: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
+}
+
+.infoModal {
+  max-width: 50vw;
+  padding: 2rem;
+  border: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
+}
+
+.infoModal h6 {
+  margin: 10px 0px 10px 0px;
+}
+
+.infoModal p {
+  font-size: small;
 }
