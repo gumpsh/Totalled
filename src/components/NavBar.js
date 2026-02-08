@@ -12,7 +12,9 @@ export default function NavBar() {
 
   const localStorage = window.localStorage;
   const gamesPlayed = JSON.parse(localStorage.getItem("amountGamesPlayed"));
-  const attempts = JSON.parse(localStorage.getItem("numAttempts"));
+
+  const storedAttempts = localStorage.getItem("numAttempts");
+  const attempts = storedAttempts ? JSON.parse(storedAttempts) : [];
 
   /**
    * Calculate total attempts - each array index holds
@@ -21,7 +23,7 @@ export default function NavBar() {
    */
   const totalAttempts = attempts.reduce(
     (total, a, i) => total + a * (i + 1),
-    0
+    0,
   );
 
   const avgAttempts = totalAttempts / gamesPlayed;
