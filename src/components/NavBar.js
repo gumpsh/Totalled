@@ -21,12 +21,12 @@ export default function NavBar() {
    * the amount of games where it took i + 1 attempts.
    * hence a * (i + 1). It is i + 1 to account for zero indexing.
    */
-  const totalAttempts = attempts.reduce(
-    (total, a, i) => total + a * (i + 1),
-    0,
-  );
+  const totalAttempts =
+    attempts.length > 0
+      ? attempts.reduce((total, a, i) => total + a * (i + 1), 0)
+      : 0;
 
-  const avgAttempts = totalAttempts / gamesPlayed;
+  const avgAttempts = gamesPlayed > 0 ? totalAttempts / gamesPlayed : 0;
 
   return (
     <>
