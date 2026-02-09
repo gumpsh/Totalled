@@ -88,7 +88,7 @@ export default function NavBar() {
           <h6>
             <strong>Stats</strong>
           </h6>
-          <p>{`Games played: ${gamesPlayed}`}</p>
+          <p>{`Games played: ${gamesPlayed ? gamesPlayed : 0}`}</p>
           <p>{`Average attempts: ${avgAttempts.toFixed(1)}`}</p>
         </Modal>
       )}
